@@ -27,11 +27,21 @@ const email = (value) => {
   }
 };
 
-const vusername = (value) => {
+const vname = (value) => {
   if (value.length < 3 || value.length > 20) {
     return (
       <div className="alert alert-danger" role="alert">
         The username must be between 3 and 20 characters.
+      </div>
+    );
+  }
+};
+
+const vpassword_confirmation = (value) => {
+  if (value.length < 6 || value.length > 40) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        The password must be between 6 and 40 characters.
       </div>
     );
   }
@@ -47,25 +57,57 @@ const vpassword = (value) => {
   }
 };
 
+
+const vphone_no = (value) => {
+  if (value.length < 10 || value.length > 15) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        invalid phone no
+      </div>
+    );
+  }
+};
+
+const vaddress = (value) => {
+  if (value.length < 6 || value.length > 40) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        The password must be between 6 and 40 characters.
+      </div>
+    );
+  }
+};
+
+
+
+
 class Register extends Component {
   constructor(props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
-    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangeName = this.onChangeName.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangePasswordConfirmation = this.onChangePasswordConfirmation.bind(this);
+    this.onChangeAddress = this.onChangeAddress.bind(this);
+    this.onChangeRole = this.onChangeRole.bind(this);
+    this.onChangePhoneNo = this.onChangePhoneNo.bind(this);
 
     this.state = {
-      username: "",
+      name: "",
       email: "",
       password: "",
+      password_confirmation:"",
+      address:"",
+      phone_no:"",
+      role:"",
       successful: false,
     };
   }
 
-  onChangeUsername(e) {
+  onChangeName(e) {
     this.setState({
-      username: e.target.value,
+      name: e.target.value,
     });
   }
 
@@ -81,6 +123,29 @@ class Register extends Component {
     });
   }
 
+  onChangePasswordConfirmation(e) {
+    this.setState({
+      password_confirmation: e.target.value,
+    });
+  }
+
+  onChangeAddress(e) {
+    this.setState({
+      address: e.target.value,
+    });
+  }
+  onChangePhoneNo(e) {
+    this.setState({
+      phone_no: e.target.value,
+    });
+  }
+
+  onChangeRole(e) {
+    this.setState({
+      role: e.target.value,
+    });
+  }
+
   handleRegister(e) {
     e.preventDefault();
 
@@ -93,7 +158,7 @@ class Register extends Component {
     if (this.checkBtn.context._errors.length === 0) {
       this.props
         .dispatch(
-          register(this.state.username, this.state.email, this.state.password)
+          register(this.state.name, this.state.email, this.state.password,this.state.password_confirmation,this.state.address,this.state.phone_no,this.state.role)
         )
         .then(() => {
           this.setState({
@@ -129,14 +194,14 @@ class Register extends Component {
             {!this.state.successful && (
               <div>
                 <div className="form-group">
-                  <label htmlFor="username">Username</label>
+                  <label htmlFor="name">name</label>
                   <Input
                     type="text"
                     className="form-control"
                     name="username"
-                    value={this.state.username}
-                    onChange={this.onChangeUsername}
-                    validations={[required, vusername]}
+                    value={this.state.name}
+                    onChange={this.onChangeName}
+                    validations={[required, vname]}
                   />
                 </div>
 
@@ -163,6 +228,22 @@ class Register extends Component {
                     validations={[required, vpassword]}
                   />
                 </div>
+
+                <div className="form-group">
+                  <label htmlFor="password_confirmation">Password Confirmation</label>
+                  <Input
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    value={this.state.password_confirmation}
+                    onChange={this.onChangePasswordConfirmation}
+                    validations={[required, vpassword_confirmation]}
+                  />
+                </div>
+
+              
+
+
 
                 <div className="form-group">
                   <button className="btn btn-primary btn-block">Sign Up</button>

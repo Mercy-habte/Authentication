@@ -7,6 +7,7 @@ import CheckButton from "react-validation/build/button";
 
 import { connect } from "react-redux";
 import { login } from "../actions/auth";
+import { isEmail } from "validator";
 
 const required = (value) => {
   if (!value) {
@@ -18,23 +19,33 @@ const required = (value) => {
   }
 };
 
+const email = (value) => {
+  if (!isEmail(value)) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        This is not a valid email.
+      </div>
+    );
+  }
+};
+
 class Login extends Component {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
-    this.onChangeUsername = this.onChangeUsername.bind(this);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
 
     this.state = {
-      username: "",
+      email: "",
       password: "",
       loading: false,
     };
   }
 
-  onChangeUsername(e) {
+  onChangeEmail(e) {
     this.setState({
-      username: e.target.value,
+      email: e.target.value,
     });
   }
 
@@ -56,7 +67,7 @@ class Login extends Component {
     const { dispatch, history } = this.props;
 
     if (this.checkBtn.context._errors.length === 0) {
-      dispatch(login(this.state.username, this.state.password))
+      dispatch(login(this.state.email, this.state.password))
         .then(() => {
           history.push("/profile");
           window.location.reload();
@@ -96,13 +107,13 @@ class Login extends Component {
             }}
           >
             <div className="form-group">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="email">Email</label>
               <Input
-                type="text"
+                type="email"
                 className="form-control"
-                name="username"
-                value={this.state.username}
-                onChange={this.onChangeUsername}
+                name="email"
+                value={this.state.email}
+                onChange={this.onChangeEmail}
                 validations={[required]}
               />
             </div>

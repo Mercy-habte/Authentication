@@ -16,7 +16,8 @@
     "react-validation": "^3.0.7",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "validator": "^13.1.1"
+    "validator": "^13.1.1",
+    "validatore": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
